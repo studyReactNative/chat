@@ -4,6 +4,7 @@ import { theme } from "./theme";
 import { StatusBar, Text } from "react-native";
 import * as Font from "expo-font";
 import { SplashScreen } from "expo-router";
+import Navigation from "./navigations";
 
 const cacheImages = (images) => {
   return images.map((image) => {
@@ -38,6 +39,7 @@ const App = () => {
   return isReady ? (
     <ThemeProvider theme={theme}>
       <StatusBar barStyle="dark-content" />
+      <Navigation />
     </ThemeProvider>
   ) : (
     <></>
