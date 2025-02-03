@@ -7,6 +7,12 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "icon": "./assets/chat.png",
+    "splash": {
+      "image": "./assets/chat.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#3679fe"
+    },
     "ios": {
       "supportsTablet": true
     },
