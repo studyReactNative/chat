@@ -1,7 +1,6 @@
-import React, { useRef, useState } from "react";
-import { Button } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { Image, Input } from "../components";
+import { Button, Image, Input } from "../components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { validateEmail, removeWhitespace } from "../utils/common";
 
@@ -10,6 +9,7 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const passwordRef = useRef(); // 이메일 -> 비밀번호로 포커스 이동
   const [errorMessage, setErrorMessage] = useState("");
+  const [disabled, setDisabled] = useState(true);
 
   const handleEmailChange = (email) => {
     const changedEmail = removeWhitespace(email);
@@ -21,6 +21,12 @@ const Login = ({ navigation }) => {
 
   const handlePasswordChange = (password) =>
     setPassword(removeWhitespace(password));
+
+  const handleLoginButtonPress = () => {};
+
+  useEffect(() => {
+    setDisabled(!(email && password && !errorMessage));
+  }, [email, password, errorMessage]);
 
   return (
     <KeyboardAwareScrollView
@@ -45,13 +51,22 @@ const Login = ({ navigation }) => {
           value={password}
           ref={passwordRef}
           onChangeText={handlePasswordChange}
-          onSubmitEditing={() => {}}
+          onSubmitEditing={handleLoginButtonPress}
           placeholder="Password"
           returnKeyType="done"
           isPassword
         />
         <ErrorText>{errorMessage}</ErrorText>
-        <Button title="Signup" onPress={() => navigation.navigate("Signup")} />
+        <Button
+          title="Login"
+          onPress={handleLoginButtonPress}
+          disabled={disabled}
+        />
+        <Button
+          title="Sign up with email"
+          onPress={() => navigation.navigate("Signup")}
+          isFilled={false}
+        />
       </Container>
     </KeyboardAwareScrollView>
   );
