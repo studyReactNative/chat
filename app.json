@@ -7,9 +7,9 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "icon": "./assets/chat.png",
+    "icon": "./assets/logo.png",
     "splash": {
-      "image": "./assets/chat.png",
+      "image": "./assets/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#3679fe"
     },

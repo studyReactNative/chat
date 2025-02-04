@@ -1,11 +1,15 @@
 import React from "react";
 import { Button, Text } from "react-native";
 import styled from "styled-components";
+import { Image } from "../components";
 
 const Login = ({ navigation }) => {
   return (
     <Container>
-      <Text style={{ fontSize: 30 }}>Login Screen</Text>
+      <Image
+        uri={require("../../assets/logo.png")}
+        imageStyle={{ borderRadius: 8 }}
+      />
       <Button title="Signup" onPress={() => navigation.navigate("Signup")} />
     </Container>
   );
