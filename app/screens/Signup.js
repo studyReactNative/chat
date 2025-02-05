@@ -11,6 +11,9 @@ const Signup = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [disabled, setDisabled] = useState(true);
+  const [photoUrl, setPhotoUrl] = useState(
+    require("../../assets/default_profile.png")
+  );
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -24,7 +27,7 @@ const Signup = () => {
       return;
     }
     let error = "";
-    if (!name) error = "Please enter your name,";
+    if (!name) error = "Please enter your name.";
     else if (!validateEmail(email)) error = "Please verify your email.";
     else if (password.length < 6)
       error = "The password must contain 6 characters at least.";
@@ -44,7 +47,12 @@ const Signup = () => {
   return (
     <KeyboardAwareScrollView extraScrollHeight={20}>
       <Container>
-        <Image rounded />
+        <Image
+          uri={photoUrl}
+          rounded
+          showButton
+          onChangeImage={(url) => setPhotoUrl(url)}
+        />
         <Input
           label="Name"
           value={name}
