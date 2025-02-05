@@ -3,13 +3,15 @@ import styled from "styled-components";
 import { Button, Image, Input } from "../components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { validateEmail, removeWhitespace } from "../utils/common";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const passwordRef = useRef(); // 이메일 -> 비밀번호로 포커스 이동
   const [errorMessage, setErrorMessage] = useState("");
   const [disabled, setDisabled] = useState(true);
+  const passwordRef = useRef(); // 이메일 -> 비밀번호로 포커스 이동
+  const insets = useSafeAreaInsets();
 
   const handleEmailChange = (email) => {
     const changedEmail = removeWhitespace(email);
@@ -33,7 +35,7 @@ const Login = ({ navigation }) => {
       contentContainerStyle={{ flex: 1 }}
       extraScrollHeight={20}
     >
-      <Container>
+      <Container insets={insets}>
         <Image
           uri={require("../../assets/logo.png")}
           imageStyle={{ borderRadius: 8 }}
@@ -78,7 +80,9 @@ const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 0 20px;
+  padding-top: ${({ insets: { top } }) => top}px;
+  padding-bottom: ${({ insets: { bottom } }) => bottom}px;
   background-color: ${({ theme }) => theme.background};
 `;
 
