@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { removeWhitespace, validateEmail } from "../utils/common";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button, Image, Input } from "../components";
+import { signup } from "../utils/firebase";
+import { Alert } from "react-native";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -42,7 +44,15 @@ const Signup = () => {
     );
   }, [name, email, password, passwordConfirm, errorMessage]);
 
-  const handleSignupButtonPress = () => {};
+  const handleSignupButtonPress = async () => {
+    try {
+      const user = await signup({ email, password, name, photoUrl });
+      console.log(user);
+      Alert.alert("Signup Success", user.email);
+    } catch (e) {
+      Alert.alert("Signup Error", e.message);
+    }
+  };
 
   return (
     <KeyboardAwareScrollView extraScrollHeight={20}>
