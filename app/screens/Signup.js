@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { removeWhitespace, validateEmail } from "../utils/common";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button, Image, Input } from "../components";
 import { signup } from "../utils/firebase";
 import { Alert } from "react-native";
+import { ProgressContext } from "../contexts/Progress";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -21,6 +22,8 @@ const Signup = () => {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   const didMountRef = useRef();
+
+  const { spinner } = useContext(ProgressContext);
 
   // 유효성 검사
   useEffect(() => {
@@ -46,11 +49,14 @@ const Signup = () => {
 
   const handleSignupButtonPress = async () => {
     try {
+      spinner.start();
       const user = await signup({ email, password, name, photoUrl });
       console.log(user);
       Alert.alert("Signup Success", user.email);
     } catch (e) {
       Alert.alert("Signup Error", e.message);
+    } finally {
+      spinner.stop();
     }
   };
 

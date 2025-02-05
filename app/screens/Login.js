@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Button, Image, Input } from "../components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -6,6 +6,7 @@ import { validateEmail, removeWhitespace } from "../utils/common";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Alert } from "react-native";
 import { login } from "../utils/firebase";
+import { ProgressContext } from "../contexts/Progress";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ const Login = ({ navigation }) => {
   const [disabled, setDisabled] = useState(true);
   const passwordRef = useRef(); // 이메일 -> 비밀번호로 포커스 이동
   const insets = useSafeAreaInsets();
+  const { spinner } = useContext(ProgressContext);
 
   const handleEmailChange = (email) => {
     const changedEmail = removeWhitespace(email);
@@ -28,10 +30,13 @@ const Login = ({ navigation }) => {
 
   const handleLoginButtonPress = async () => {
     try {
+      spinner.start();
       const user = await login({ email, password });
       Alert.alert("Login Success", user.email);
     } catch (e) {
       Alert.alert("Login Error", e.message);
+    } finally {
+      spinner.stop();
     }
   };
 
