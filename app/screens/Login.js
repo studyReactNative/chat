@@ -4,6 +4,8 @@ import { Button, Image, Input } from "../components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { validateEmail, removeWhitespace } from "../utils/common";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Alert } from "react-native";
+import { login } from "../utils/firebase";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -24,7 +26,14 @@ const Login = ({ navigation }) => {
   const handlePasswordChange = (password) =>
     setPassword(removeWhitespace(password));
 
-  const handleLoginButtonPress = () => {};
+  const handleLoginButtonPress = async () => {
+    try {
+      const user = await login({ email, password });
+      Alert.alert("Login Success", user.email);
+    } catch (e) {
+      Alert.alert("Login Error", e.message);
+    }
+  };
 
   useEffect(() => {
     setDisabled(!(email && password && !errorMessage));
